@@ -80,7 +80,11 @@ public class SearchActivity extends AppCompatActivity {
             ArrayList<Movie> movieListByName = JSON.getMovieListByName(movieList, query);
 
             if (movieListByName.size() == 0) {
-                Toast.makeText(this, getResources().getString(R.string.search_no_results) + query, Toast.LENGTH_SHORT).show();
+                SearchActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(SearchActivity.this, getResources().getString(R.string.search_no_results) + query, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             // Setup and Handover data to recyclerView
@@ -98,7 +102,7 @@ public class SearchActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //this method will be runing on UI thread
+            //this method will be running on UI thread
             pdLoading.setMessage(getResources().getString(R.string.search_loading_data));
             pdLoading.setCancelable(false);
             pdLoading.show();
@@ -111,16 +115,27 @@ public class SearchActivity extends AppCompatActivity {
                 JSONArray jsonArray = null;
 
                 jsonArray = JSON.getJSONArray(jsonObject);
+// Pabandyti
+//                jsonArray = jsonObject.toJSONArray(jsonObject.names());
+
                 movieList = JSON.getList(jsonArray);
 
                 //System.err.println(jsonObject.toString());
                 return jsonObject;
             } catch (JSONException | IOException e1) {
-                Toast.makeText(
-                        SearchActivity.this,
-                        getResources().getText(R.string.search_error_reading_data) + e1.getMessage(),
-                        Toast.LENGTH_LONG
-                ).show();
+
+// TODO: Parodyti Mokytojui krūta dalyką.
+//                System.err.println("StackTrace 👇");
+//                e1.printStackTrace();
+
+                SearchActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(
+                                SearchActivity.this,
+                                getResources().getText(R.string.search_error_reading_data) + e1.getMessage(),
+                                Toast.LENGTH_LONG
+                        ).show();                    }
+                });
             }
             return null;
         }
@@ -129,10 +144,18 @@ public class SearchActivity extends AppCompatActivity {
         protected void onPostExecute(JSONObject json) {
             pdLoading.dismiss();
             if (movieList != null ) {
-                Toast.makeText(SearchActivity.this, getResources().getString(R.string.search_found_entries_from_api) +  movieList.size(),  Toast.LENGTH_LONG).show();
-            }
+                SearchActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(SearchActivity.this, getResources().getString(R.string.search_found_entries_from_api) +  movieList.size(),  Toast.LENGTH_LONG).show();
+                    }
+                });
 
-            Toast.makeText(SearchActivity.this, json.toString(), Toast.LENGTH_LONG).show();
+            }
+//            SearchActivity.this.runOnUiThread(new Runnable() {
+//                public void run() {
+//                    Toast.makeText(SearchActivity.this, json.toString(), Toast.LENGTH_LONG).show();
+//                }
+//            });
 //
         }//onPostExecute
 

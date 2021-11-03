@@ -34,8 +34,14 @@ public class JSON {
 
     public static JSONArray getJSONArray(JSONObject json) throws JSONException {
         // JSONObject to JSONArray
-        JSONArray jsonArray = json.getJSONArray( json.toString());
+        JSONArray jsonArray = json.getJSONArray(json.toString());
 
+// From PDF
+//        int jsonLength = json.toString().length();
+//        String movieList = "{" + json.toString().substring(96, jsonLength) + "}";
+//
+//        JSONObject jsonObject = new JSONObject(movieList);
+//        JSONArray jsonArray = jsonObject.getJSONArray("movieList");
         return jsonArray;
     }
     public static ArrayList<Movie> getList(JSONArray jsonArray) throws JSONException {

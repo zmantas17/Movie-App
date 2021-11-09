@@ -5,6 +5,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
@@ -38,6 +39,12 @@ public class SearchActivity extends AppCompatActivity {
 
         AsyncFetch asyncFetch = new AsyncFetch();
         asyncFetch.execute();
+
+        for (Movie movie: movieList) {
+            System.err.println("\n\n\n\n" + movie);
+        }
+
+
 
     }
 
@@ -112,21 +119,22 @@ public class SearchActivity extends AppCompatActivity {
         protected JSONObject doInBackground(String... params) {
             try {
                 JSONObject jsonObject = JSON.readJsonFromUrl(API_MOVIE);
-                JSONArray jsonArray = null;
+                //JSONArray jsonArray = null;
 
-                jsonArray = JSON.getJSONArray(jsonObject);
+                //jsonArray = JSON.getJSONArray(jsonObject);
 // Pabandyti
 //                jsonArray = jsonObject.toJSONArray(jsonObject.names());
 
-                movieList = JSON.getList(jsonArray);
+                movieList = JSON.getList(jsonObject);
+                //movieList = JSON.getList(jsonArray);
 
                 //System.err.println(jsonObject.toString());
                 return jsonObject;
             } catch (JSONException | IOException e1) {
 
 // TODO: Parodyti Mokytojui krūta dalyką.
-//                System.err.println("StackTrace 👇");
-//                e1.printStackTrace();
+                System.err.println("StackTrace 👇");
+                e1.printStackTrace();
 
                 SearchActivity.this.runOnUiThread(new Runnable() {
                     public void run() {

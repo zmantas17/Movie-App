@@ -44,11 +44,11 @@ public class JSON {
 //        JSONArray jsonArray = jsonObject.getJSONArray("movieList");
         return jsonArray;
     }
-    public static ArrayList<Movie> getList(JSONArray jsonArray) throws JSONException {
+    public static ArrayList<Movie> getList(JSONObject json_data) throws JSONException {
         ArrayList<Movie> movieList = new ArrayList<Movie>();
         // Extract data from json and store into ArrayList as class objects
-        for (int i = 0; i < jsonArray.length(); i++){
-            JSONObject json_data = jsonArray.getJSONObject(i);
+        //for (int i = 0; i < jsonArray.length(); i++){
+            //JSONObject json_data = jsonArray.getJSONObject(i);
             Movie movie = new Movie(
                     json_data.getString("title"),
                     json_data.getInt("budget"),
@@ -56,7 +56,7 @@ public class JSON {
                     json_data.getString("release_date")
             );
             movieList.add(movie);
-        }
+        //}
         return movieList;
     }
     public static ArrayList<Movie> getMovieListByName(ArrayList<Movie> movieList, String name){
